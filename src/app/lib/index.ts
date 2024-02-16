@@ -98,3 +98,13 @@ export async function ParseMDData() {
     lastUpdate: lastUpdateTime,
   };
 }
+
+/**
+ * Find a single user from the source mark down
+ * @param id - Username of the account
+ */
+export async function GetUserFromMD(id: string) {
+  const { users } = await ParseMDData();
+
+  return users.find((user) => user.username === id);
+}

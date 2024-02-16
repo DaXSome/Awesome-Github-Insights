@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ParseMDData } from "../lib/";
 
 export default async function Home() {
@@ -10,7 +11,7 @@ export default async function Home() {
       <br />
 
       {users.map((userData) => (
-        <div key={userData.username}>
+        <Link href={`/devs/${userData.username}`} key={userData.username}>
           <h1>Name: {userData.name}</h1>
           <h1>Username: {userData.username}</h1>
           <p>Company: {userData.company}</p>
@@ -20,7 +21,7 @@ export default async function Home() {
           <p>Public Contributions: {userData.public_contributions}</p>
           <hr />
           <br />
-        </div>
+        </Link>
       ))}
     </main>
   );
