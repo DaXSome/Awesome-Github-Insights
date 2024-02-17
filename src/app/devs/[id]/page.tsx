@@ -10,15 +10,13 @@ interface Props {
 export default async function DevPage({ params }: Props) {
   const { id } = params;
 
-  const userResponse = await fetch(`https://api.github.com/users/${id}`);
+  const [userResponse, mdUserInfo, contributionsResponse] = await Promise.all([
+    fetch(`https://api.github.com/users/${id}`),
+    GetUserFromMD(id),
+    fetch(`https://github-contributions.vercel.app/api/v1/${id}`),
+  ]);
 
   const ghUserInfo = (await userResponse.json()) as GhUserInfo;
-
-  const mdUserInfo = await GetUserFromMD(ghUserInfo.login);
-
-  const contributionsResponse = await fetch(
-    `https://github-contributions.vercel.app/api/v1/${id}`,
-  );
 
   const contributions = (await contributionsResponse.json()) as GhContributions;
 
