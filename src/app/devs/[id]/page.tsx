@@ -65,12 +65,12 @@ export default async function DevPage({ params }: Props) {
       />
       <p>Years on Github: {contributions.years.length}</p>
       {contributions.years.map(({ year }) => (
-        <div>
+        <div key={year}>
           <h1>Contributions for {year}</h1>
           <GitHubCalendar
-            key={year}
             username={ghUserInfo.login}
             year={parseInt(year)}
+            colorScheme={"light"}
             showWeekdayLabels
           />
           <br />
