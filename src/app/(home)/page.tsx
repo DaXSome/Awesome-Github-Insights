@@ -1,11 +1,18 @@
+import SearchUserInput from "@/components/home/SearchUserInput";
 import Link from "next/link";
 import { ParseMDData } from "../lib/";
 
 export default async function Home() {
   const { users, lastUpdate } = await ParseMDData();
+
   return (
     <main className="">
       <h1>Last updated: {lastUpdate}</h1>
+
+      <hr />
+      <br />
+
+      <SearchUserInput users={users} />
 
       <hr />
       <br />
