@@ -9,7 +9,7 @@ interface Props {
 
 export async function generateStaticParams() {
   const { users } = await ParseMDData();
-  return users.slice(0, 5).map((user) => ({
+  return users.map((user) => ({
     id: user.username,
   }));
 }
