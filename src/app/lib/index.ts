@@ -58,6 +58,8 @@ export async function ParseMDData() {
           case 1:
             const nameAndUsername = elText.split("\n");
 
+            userData.avatar = $(dataEl).find("img").attr()!["src"]
+
             userData.username = nameAndUsername[0].trim();
             userData.name = nameAndUsername[2].trim();
             break;

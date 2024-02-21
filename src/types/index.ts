@@ -2,6 +2,7 @@ interface MDUserData {
   name: string;
   username: string;
   company: string;
+  avatar: string;
   twitter_user_name: string;
   location: string;
   total_contributions: number;
