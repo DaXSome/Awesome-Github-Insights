@@ -21,12 +21,17 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
   const user  = await GetUserFromMD(id)
 
   return {
+    metadataBase: new URL(process.env.VERCEL_URL as string || "http://localhost:3000"),
     title: `Ghana Devs | ${user?.name} | ${user?.username}`,
     description: `Profile analytics for ${user?.name}`,
     openGraph: {
+   title: `Ghana Devs | ${user?.name} | ${user?.username}`,
+    description: `Profile analytics for ${user?.name}`,
       images: [user?.avatar!]
     },
     twitter: {
+   title: `Ghana Devs | ${user?.name} | ${user?.username}`,
+    description: `Profile analytics for ${user?.name}`,
       images: [user?.avatar!]
     },
   }
