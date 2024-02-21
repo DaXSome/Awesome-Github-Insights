@@ -1,5 +1,5 @@
 import { GetUserFromMD } from "@/app/lib";
-import GitHubCalendar from "react-github-calendar";
+import ContributionsCalender from "@/components/devs/ContributionsCalender";
 
 interface Props {
   params: {
@@ -19,6 +19,10 @@ export default async function DevPage({ params }: Props) {
   const ghUserInfo = (await userResponse.json()) as GhUserInfo;
 
   const contributions = (await contributionsResponse.json()) as GhContributions;
+
+  const contributionsPerYear = contributions.years.map(({ year }) =>
+    parseInt(year),
+  );
 
   return (
     <div>
@@ -64,19 +68,10 @@ export default async function DevPage({ params }: Props) {
         src={`https://github-readme-streak-stats.herokuapp.com?user=${ghUserInfo.login}`}
       />
       <p>Years on Github: {contributions.years.length}</p>
-      {contributions.years.map(({ year }) => (
-        <div key={year}>
-          <h1>Contributions for {year}</h1>
-          <GitHubCalendar
-            username={ghUserInfo.login}
-            year={parseInt(year)}
-            colorScheme={"light"}
-            showWeekdayLabels
-          />
-          <br />
-          <br />
-        </div>
-      ))}
+      <ContributionsCalender
+        username={ghUserInfo.login}
+        years={contributionsPerYear}
+      />
     </div>
   );
 }
