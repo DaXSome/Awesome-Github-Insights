@@ -1,10 +1,17 @@
-import { GetUserFromMD } from "@/app/lib";
+import { GetUserFromMD, ParseMDData } from "@/app/lib";
 import ContributionsCalender from "@/components/devs/ContributionsCalender";
 
 interface Props {
   params: {
     id: string;
   };
+}
+
+export async function generateStaticParams() {
+  const { users } = await ParseMDData();
+  return users.slice(0, 5).map((user) => ({
+    id: user.username,
+  }));
 }
 
 export default async function DevPage({ params }: Props) {
