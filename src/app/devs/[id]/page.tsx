@@ -1,4 +1,4 @@
-import { GetUserFromMD, ParseMDData } from "@/app/lib";
+import { GetUserFromMD, ParseMDData } from "@/lib";
 import ContributionsCalender from "@/components/devs/ContributionsCalender";
 import { Metadata } from "next";
 

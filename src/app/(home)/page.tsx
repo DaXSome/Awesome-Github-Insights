@@ -1,7 +1,7 @@
 import Hero from "@/components/home/Hero";
 import SearchUserInput from "@/components/home/SearchUserInput";
 import Link from "next/link";
-import { ParseMDData } from "../lib/";
+import { ParseMDData } from "@/lib";
 
 export default async function Home() {
   const { users, lastUpdate } = await ParseMDData();
