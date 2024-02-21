@@ -1,5 +1,6 @@
 import { GetUserFromMD, ParseMDData } from "@/app/lib";
 import ContributionsCalender from "@/components/devs/ContributionsCalender";
+import { Metadata } from "next";
 
 interface Props {
   params: {
@@ -12,6 +13,23 @@ export async function generateStaticParams() {
   return users.map((user) => ({
     id: user.username,
   }));
+}
+
+export async function generateMetadata({params}: Props): Promise<Metadata> {
+  const { id } = params;
+  
+  const user  = await GetUserFromMD(id)
+
+  return {
+    title: `Ghana Devs | ${user?.name} | ${user?.username}`,
+    description: `Profile analytics for ${user?.name}`,
+    openGraph: {
+      images: [user?.avatar!]
+    },
+    twitter: {
+      images: [user?.avatar!]
+    },
+  }
 }
 
 export default async function DevPage({ params }: Props) {
