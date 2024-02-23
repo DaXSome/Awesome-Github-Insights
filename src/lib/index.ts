@@ -58,7 +58,7 @@ export async function ParseMDData() {
           case 1:
             const nameAndUsername = elText.split("\n");
 
-            userData.avatar = $(dataEl).find("img").attr()!["src"]
+            userData.avatar = $(dataEl).find("img").attr()!["src"];
 
             userData.username = nameAndUsername[0].trim();
             userData.name = nameAndUsername[2].trim();
@@ -109,4 +109,66 @@ export async function GetUserFromMD(id: string) {
   const { users } = await ParseMDData();
 
   return users.find((user) => user.username === id);
+}
+
+/**
+ * Retrieves a custom Github profile of the account
+ * @param id - Username of the account
+ */
+export async function GetDevProfile(id: string) {
+  const [userResponse, mdUserInfo, contributionsResponse] = await Promise.all([
+    fetch(`https://api.github.com/users/${id}`),
+    GetUserFromMD(id),
+    fetch(`https://github-contributions.vercel.app/api/v1/${id}`),
+  ]);
+
+  const ghUserInfo = (await userResponse.json()) as GhUserInfo;
+
+  const contributions = (await contributionsResponse.json()) as GhContributions;
+
+  const contributionsPerYear = contributions.years.map(({ year }) =>
+    parseInt(year),
+  );
+
+  const reposResponse = await fetch(`https://api.github.com/users/${id}/repos`);
+
+  const userRepos = (await reposResponse.json()) as GhUserRepos[];
+
+  const forkedRepos = userRepos.filter((repo) => repo.fork);
+
+  const forkedReposDetailsPromise = forkedRepos.map((repo) =>
+    fetch(`https://api.github.com/repos/${id}/${repo.name}`).then((response) =>
+      response.json(),
+    ),
+  ) as Promise<GhForkedRepo>[];
+
+  const forkedReposDetails = await Promise.all(forkedReposDetailsPromise);
+
+  const ossContributions: OSSContributions[] = [];
+
+  for (let forkedRepo of forkedReposDetails) {
+    const contributorsOfRepoResponse = await fetch(
+      forkedRepo.parent.contributors_url,
+    );
+
+    const contributorsOfRepo =
+      (await contributorsOfRepoResponse.json()) as GhContributor[];
+
+    for (let contributor of contributorsOfRepo) {
+      if (contributor.login === id) {
+        ossContributions.push({
+          repo: forkedRepo.parent.full_name,
+          contributions: contributor.contributions,
+        });
+      }
+    }
+  }
+
+  return {
+    ghUserInfo,
+    mdUserInfo,
+    ossContributions,
+    contributionsPerYear,
+    yearsOnGithub: contributions.years.length,
+  };
 }

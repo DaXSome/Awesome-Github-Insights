@@ -1,5 +1,5 @@
-import { GetUserFromMD, ParseMDData } from "@/lib";
 import ContributionsCalender from "@/components/devs/ContributionsCalender";
+import { GetDevProfile, GetUserFromMD, ParseMDData } from "@/lib";
 import { Metadata } from "next";
 
 interface Props {
@@ -15,44 +15,40 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({params}: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = params;
-  
-  const user  = await GetUserFromMD(id)
+
+  const user = await GetUserFromMD(id);
 
   return {
-    metadataBase: new URL(process.env.VERCEL_URL as string || "http://localhost:3000"),
+    metadataBase: new URL(
+      (process.env.VERCEL_URL as string) || "http://localhost:3000",
+    ),
     title: `Ghana Devs | ${user?.name} | ${user?.username}`,
     description: `Profile analytics for ${user?.name}`,
     openGraph: {
-   title: `Ghana Devs | ${user?.name} | ${user?.username}`,
-    description: `Profile analytics for ${user?.name}`,
-      images: [user?.avatar!]
+      title: `Ghana Devs | ${user?.name} | ${user?.username}`,
+      description: `Profile analytics for ${user?.name}`,
+      images: [user?.avatar!],
     },
     twitter: {
-   title: `Ghana Devs | ${user?.name} | ${user?.username}`,
-    description: `Profile analytics for ${user?.name}`,
-      images: [user?.avatar!]
+      title: `Ghana Devs | ${user?.name} | ${user?.username}`,
+      description: `Profile analytics for ${user?.name}`,
+      images: [user?.avatar!],
     },
-  }
+  };
 }
 
 export default async function DevPage({ params }: Props) {
   const { id } = params;
 
-  const [userResponse, mdUserInfo, contributionsResponse] = await Promise.all([
-    fetch(`https://api.github.com/users/${id}`),
-    GetUserFromMD(id),
-    fetch(`https://github-contributions.vercel.app/api/v1/${id}`),
-  ]);
-
-  const ghUserInfo = (await userResponse.json()) as GhUserInfo;
-
-  const contributions = (await contributionsResponse.json()) as GhContributions;
-
-  const contributionsPerYear = contributions.years.map(({ year }) =>
-    parseInt(year),
-  );
+  const {
+    ghUserInfo,
+    mdUserInfo,
+    ossContributions,
+    yearsOnGithub,
+    contributionsPerYear,
+  } = await GetDevProfile(id);
 
   return (
     <div>
@@ -97,7 +93,25 @@ export default async function DevPage({ params }: Props) {
       <img
         src={`https://github-readme-streak-stats.herokuapp.com?user=${ghUserInfo.login}`}
       />
-      <p>Years on Github: {contributions.years.length}</p>
+      <br />
+      <br />
+      <h1>Open source contributions</h1>
+      {ossContributions.length === 0 ? (
+        <p>No open source contributions yet</p>
+      ) : (
+        <ol>
+          {ossContributions.map(({ repo, contributions }) => (
+            <li key={repo}>
+              <p>Repo: {repo}</p>
+              <p>Total contributions: {contributions}</p>
+            </li>
+          ))}
+        </ol>
+      )}
+      <br />
+      <br />
+      <hr />
+      <p>Years on Github: {yearsOnGithub}</p>
       <ContributionsCalender
         username={ghUserInfo.login}
         years={contributionsPerYear}
