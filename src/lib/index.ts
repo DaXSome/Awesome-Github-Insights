@@ -116,8 +116,12 @@ export async function GetUserFromMD(id: string) {
  * @param id - Username of the account
  */
 export async function GetDevProfile(id: string) {
+  const headers = {
+    Authorization: `Bearer ${process.env.GH_API_KEY}`,
+  };
+
   const [userResponse, mdUserInfo, contributionsResponse] = await Promise.all([
-    fetch(`https://api.github.com/users/${id}`),
+    fetch(`https://api.github.com/users/${id}`, { headers }),
     GetUserFromMD(id),
     fetch(`https://github-contributions.vercel.app/api/v1/${id}`),
   ]);
@@ -130,15 +134,18 @@ export async function GetDevProfile(id: string) {
     parseInt(year),
   );
 
-  const reposResponse = await fetch(`https://api.github.com/users/${id}/repos`);
+  const reposResponse = await fetch(
+    `https://api.github.com/users/${id}/repos`,
+    { headers },
+  );
 
   const userRepos = (await reposResponse.json()) as GhUserRepos[];
 
   const forkedRepos = userRepos.filter((repo) => repo.fork);
 
   const forkedReposDetailsPromise = forkedRepos.map((repo) =>
-    fetch(`https://api.github.com/repos/${id}/${repo.name}`).then((response) =>
-      response.json(),
+    fetch(`https://api.github.com/repos/${id}/${repo.name}`, { headers }).then(
+      (response) => response.json(),
     ),
   ) as Promise<GhForkedRepo>[];
 
