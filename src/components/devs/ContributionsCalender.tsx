@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import GitHubCalendar from "react-github-calendar";
 
 interface Props {
@@ -8,7 +9,15 @@ interface Props {
 }
 
 const ContributionsCalender = ({ username, years }: Props) => {
-  if (typeof window === "undefined") return <div></div>;
+  const [domLoaded, setDomLoaded] = useState(false);
+
+  useEffect(() => {
+    setDomLoaded(typeof window !== "undefined");
+  }, []);
+
+  if (!domLoaded) {
+    return null;
+  }
 
   return years.map((year) => (
     <div key={year}>
