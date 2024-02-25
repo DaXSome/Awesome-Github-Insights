@@ -154,19 +154,21 @@ export async function GetDevProfile(id: string) {
   const ossContributions: OSSContributions[] = [];
 
   for (let forkedRepo of forkedReposDetails) {
-    const contributorsOfRepoResponse = await fetch(
-      forkedRepo.parent.contributors_url,
-    );
+    if (forkedRepo.parent) {
+      const contributorsOfRepoResponse = await fetch(
+        forkedRepo.parent.contributors_url,
+      );
 
-    const contributorsOfRepo =
-      (await contributorsOfRepoResponse.json()) as GhContributor[];
+      const contributorsOfRepo =
+        (await contributorsOfRepoResponse.json()) as GhContributor[];
 
-    for (let contributor of contributorsOfRepo) {
-      if (contributor.login.toLowerCase() === id.toLowerCase()) {
-        ossContributions.push({
-          repo: forkedRepo.parent.full_name,
-          contributions: contributor.contributions,
-        });
+      for (let contributor of contributorsOfRepo) {
+        if (contributor.login.toLowerCase() === id.toLowerCase()) {
+          ossContributions.push({
+            repo: forkedRepo.parent.full_name,
+            contributions: contributor.contributions,
+          });
+        }
       }
     }
   }
