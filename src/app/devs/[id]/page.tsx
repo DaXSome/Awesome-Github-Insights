@@ -1,18 +1,13 @@
 import ContributionsCalender from "@/components/devs/ContributionsCalender";
-import { GetDevProfile, GetUserFromMD, ParseMDData } from "@/lib";
+import { GetDevProfile, GetUserFromMD } from "@/lib";
 import { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
 
 interface Props {
   params: {
     id: string;
   };
-}
-
-export async function generateStaticParams() {
-  const { users } = await ParseMDData();
-  return users.map((user) => ({
-    id: user.username,
-  }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
