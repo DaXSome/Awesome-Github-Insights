@@ -162,7 +162,7 @@ export async function GetDevProfile(id: string) {
       (await contributorsOfRepoResponse.json()) as GhContributor[];
 
     for (let contributor of contributorsOfRepo) {
-      if (contributor.login === id) {
+      if (contributor.login.toLowerCase() === id.toLowerCase()) {
         ossContributions.push({
           repo: forkedRepo.parent.full_name,
           contributions: contributor.contributions,
