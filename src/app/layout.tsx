@@ -6,7 +6,8 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Ghana Devs",
-  description: "",
+  description:
+    "We provide an index of Ghanaian developers with Github profile statistics.",
 };
 
 export default function RootLayout({
