@@ -22,9 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 
   return {
-    metadataBase: new URL(
-      (process.env.VERCEL_URL as string) || "http://localhost:3000",
-    ),
+    metadataBase: new URL("https://ghana-devs.vercel.app"),
     openGraph: {
       images: [user?.avatar!],
       ...titleNDesc,
