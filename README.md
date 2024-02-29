@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Ghana Devs
+
+An index of Ghanaian developers with awesome profile insights based on [Top Github Users](https://github.com/gayanvoice/top-github-users/blob/main/markdown/total_contributions/ghana.md)
 
 ## Getting Started
 
