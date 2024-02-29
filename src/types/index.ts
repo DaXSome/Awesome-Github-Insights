@@ -262,8 +262,3 @@ interface GhForkedRepo extends GhUserRepos {
 interface GhContributor extends RepoOwner {
   contributions: number;
 }
-
-interface OSSContributions {
-  repo: string;
-  contributions: number;
-}

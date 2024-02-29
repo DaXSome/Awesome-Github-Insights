@@ -134,49 +134,9 @@ export async function GetDevProfile(id: string) {
     parseInt(year),
   );
 
-  const reposResponse = await fetch(
-    `https://api.github.com/users/${id}/repos`,
-    { headers },
-  );
-
-  const userRepos = (await reposResponse.json()) as GhUserRepos[];
-
-  const forkedRepos = userRepos.filter((repo) => repo.fork);
-
-  const forkedReposDetailsPromise = forkedRepos.map((repo) =>
-    fetch(`https://api.github.com/repos/${id}/${repo.name}`, { headers }).then(
-      (response) => response.json(),
-    ),
-  ) as Promise<GhForkedRepo>[];
-
-  const forkedReposDetails = await Promise.all(forkedReposDetailsPromise);
-
-  const ossContributions: OSSContributions[] = [];
-
-  for (let forkedRepo of forkedReposDetails) {
-    if (forkedRepo.parent) {
-      const contributorsOfRepoResponse = await fetch(
-        forkedRepo.parent.contributors_url,
-      );
-
-      const contributorsOfRepo =
-        (await contributorsOfRepoResponse.json()) as GhContributor[];
-
-      for (let contributor of contributorsOfRepo) {
-        if (contributor.login.toLowerCase() === id.toLowerCase()) {
-          ossContributions.push({
-            repo: forkedRepo.parent.full_name,
-            contributions: contributor.contributions,
-          });
-        }
-      }
-    }
-  }
-
   return {
     ghUserInfo,
     mdUserInfo,
-    ossContributions,
     contributionsPerYear,
     yearsOnGithub: contributions.years.length,
   };
