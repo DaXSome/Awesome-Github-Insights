@@ -20,8 +20,8 @@ const ContributionsCalender = ({ username, years }: Props) => {
   }
 
   return years.map((year) => (
-    <div key={year}>
-      <h1>Contributions for {year}</h1>
+    <div key={year} className="mb-8">
+      <h1 className="text-2xl font-semibold pb-2">Contributions for {year}</h1>
 
       <GitHubCalendar
         username={username}
@@ -29,8 +29,6 @@ const ContributionsCalender = ({ username, years }: Props) => {
         colorScheme={"light"}
         showWeekdayLabels
       />
-      <br />
-      <br />
     </div>
   ));
 };
