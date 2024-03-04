@@ -40,7 +40,7 @@ export async function ParseMDData() {
   // It's the 4th table in the html
   const contributionsTableEl = $("tbody").eq(3).children();
 
-  const users: MDUserData[] = [];
+  const sortedUsers: Record<string, MDUserData[]> = {};
 
   // $("tbody").eq(3).find("tr") unfortunately returns only one row
   contributionsTableEl.each((rowIndex, rowEl) => {
@@ -92,11 +92,17 @@ export async function ParseMDData() {
     userData.private_contributions =
       userData.total_contributions - userData.public_contributions;
 
-    users.push(userData);
+    const firstLetter = userData.name[0].toUpperCase();
+
+    if (sortedUsers[firstLetter]) {
+      sortedUsers[firstLetter].push(userData);
+    } else {
+      sortedUsers[firstLetter] = [userData];
+    }
   });
 
   return {
-    users,
+    users: sortedUsers,
     lastUpdate: lastUpdateTime,
   };
 }
@@ -108,7 +114,9 @@ export async function ParseMDData() {
 export async function GetUserFromMD(id: string) {
   const { users } = await ParseMDData();
 
-  return users.find((user) => user.username === id);
+  const firstLetter = id[0];
+
+  return users[firstLetter].find((user) => user.username === id);
 }
 
 /**
