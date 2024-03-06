@@ -1,5 +1,5 @@
 import ContributionsCalender from "@/components/devs/ContributionsCalender";
-import { GetDevProfile, GetUserFromMD } from "@/lib";
+import { GetDevProfile } from "@/lib";
 import { Metadata } from "next";
 import Image from "next/image";
 
@@ -14,21 +14,21 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = params;
 
-  const user = await GetUserFromMD(id);
+  const { ghUserInfo } = await GetDevProfile(id);
 
   const titleNDesc = {
-    title: `Ghana Devs | ${user?.name} | ${user?.username}`,
-    description: `Meet ${user?.name}. Total Contributions: ${user?.total_contributions}, Private Contributions: ${user?.private_contributions}, Public Contributions: ${user?.public_contributions}. Follow ${user?.twitter_user_name} on Twitter.`,
+    title: `Ghana Devs | ${ghUserInfo?.name} | ${ghUserInfo?.login}`,
+    description: `Catch all the amazing stuff ${ghUserInfo?.name} is building.`,
   };
 
   return {
     metadataBase: new URL("https://ghana-devs.vercel.app"),
     openGraph: {
-      images: [user?.avatar!],
+      images: [ghUserInfo?.avatar_url!],
       ...titleNDesc,
     },
     twitter: {
-      images: [user?.avatar!],
+      images: [ghUserInfo?.avatar_url!],
       ...titleNDesc,
     },
     ...titleNDesc,
