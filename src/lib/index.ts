@@ -114,9 +114,13 @@ export async function ParseMDData() {
 export async function GetUserFromMD(id: string) {
   const { users } = await ParseMDData();
 
-  const firstLetter = id[0];
+  const firstLetter = id[0].toUpperCase();
 
-  return users[firstLetter].find((user) => user.username === id);
+  if (users[firstLetter]) {
+    return users[firstLetter].find(
+      (user) => user.username.toLowerCase() === id.toLowerCase(),
+    );
+  }
 }
 
 /**
