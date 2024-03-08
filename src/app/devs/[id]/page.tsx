@@ -1,7 +1,6 @@
 import ContributionsCalender from "@/components/devs/ContributionsCalender";
 import { GetDevProfile } from "@/lib";
 import { Metadata } from "next";
-import Image from "next/image";
 
 export const dynamic = "force-dynamic";
 
@@ -45,7 +44,7 @@ export default async function DevPage({ params }: Props) {
     <div className="container mx-auto py-8">
       <div className="flex items-center justify-center space-x-4">
         <div className="flex items-center">
-          <Image
+          <img
             src={ghUserInfo.avatar_url}
             className="rounded-full"
             alt="User Avatar"
@@ -88,7 +87,7 @@ export default async function DevPage({ params }: Props) {
       <section className="my-8">
         <h1 className="text-2xl font-bold">Trophies</h1>
         <div className="flex justify-center">
-          <Image
+          <img
             src={`https://github-profile-trophy.vercel.app/?username=${ghUserInfo.login}`}
             alt="Trophies"
             width={800}
@@ -102,7 +101,7 @@ export default async function DevPage({ params }: Props) {
       <section className="my-8">
         <h1 className="text-2xl font-bold">Stats</h1>
         <div className="flex justify-center">
-          <Image
+          <img
             src={`https://github-readme-stats.vercel.app/api?username=${ghUserInfo.login}`}
             alt="Stats"
             width={400}
@@ -116,7 +115,7 @@ export default async function DevPage({ params }: Props) {
       <section className="my-8">
         <h1 className="text-2xl font-bold">Top Languages</h1>
         <div className="flex justify-center">
-          <Image
+          <img
             src={`https://github-readme-stats-git-masterrstaa-rickstaa.vercel.app/api/top-langs/?username=${ghUserInfo.login}`}
             alt="Top Languages"
             width={400}
@@ -130,7 +129,7 @@ export default async function DevPage({ params }: Props) {
       <section className="my-8">
         <h1 className="text-2xl font-bold">Streak</h1>
         <div className="flex justify-center">
-          <Image
+          <img
             src={`https://github-readme-streak-stats.herokuapp.com?user=${ghUserInfo.login}`}
             alt="Streak"
             width={400}
