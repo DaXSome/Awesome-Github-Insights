@@ -71,6 +71,14 @@ export default async function DevPage({ params }: Props) {
             <p className="text-gray-600">
               Private contributions: {mdUserInfo?.private_contributions}
             </p>
+            <a
+              href={`https://github.com/${ghUserInfo.login}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-full hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+            >
+              View on GitHub &rarr;
+            </a>
           </div>
         </div>
       </div>
