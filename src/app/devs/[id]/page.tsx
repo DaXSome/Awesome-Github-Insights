@@ -43,7 +43,7 @@ export default async function DevPage({ params }: Props) {
   return (
     <div className="container mx-auto py-8">
       <div className="flex items-center justify-center space-x-4">
-        <div className="flex items-center">
+        <div className="flex items-center gap-4">
           <img
             src={ghUserInfo.avatar_url}
             className="rounded-full"
@@ -74,7 +74,7 @@ export default async function DevPage({ params }: Props) {
               href={`https://github.com/${ghUserInfo.login}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-full hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+              className="mt-2 inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-full hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
             >
               View on GitHub &rarr;
             </a>
