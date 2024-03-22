@@ -16,8 +16,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { ghUserInfo } = await GetDevProfile(id);
 
   const titleNDesc = {
-    title: `Ghana Devs | ${ghUserInfo?.name} | ${ghUserInfo?.login}`,
-    description: `Catch all the amazing stuff ${ghUserInfo?.name} is building.`,
+    title: `Ghana Devs | ${ghUserInfo?.name ?? "No name"} | ${ghUserInfo?.login}`,
+    description: `Catch all the amazing stuff ${ghUserInfo?.login} is building.`,
   };
 
   return {
