@@ -5,8 +5,6 @@ interface Props {
 const Hero = ({ lastUpdate }: Props) => {
   return (
     <div className="container mx-auto px-4 py-16 text-center">
-      <h1 className="text-4xl font-bold text-gray-800">Ghana Devs</h1>
-
       <p className="mt-4 text-lg text-gray-600">
         Welcome to Ghana Devs, your go-to resource for discovering Ghanaian
         developers and exploring beautiful insights on their profiles.

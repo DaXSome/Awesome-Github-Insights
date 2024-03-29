@@ -1,5 +1,4 @@
 import Hero from "@/components/home/Hero";
-import SearchUserInput from "@/components/home/SearchUserInput";
 import { ParseMDData } from "@/lib";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,12 +8,8 @@ export default async function Home() {
 
   const userKeys = Object.keys(users).sort();
 
-  const rawUsers = userKeys.map((key) => users[key]).flat();
-
   return (
     <main className="container mx-auto px-4 py-16">
-      <SearchUserInput users={rawUsers} />
-
       <Hero lastUpdate={lastUpdate} />
 
       <div className="grid grid-cols-3 md:grid-cols-5 gap-2">

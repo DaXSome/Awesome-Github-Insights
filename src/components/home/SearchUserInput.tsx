@@ -31,14 +31,14 @@ const SearchUserInput = ({ users }: SearchUserInputProps) => {
   };
 
   return (
-    <div className="flex justify-center items-start mt-4">
+    <div className="flex justify-center items-start mt-4 max-h-48 ">
       <div className="w-full max-w-md">
         <form
           onSubmit={handleSubmit}
           className="flex items-center bg-white border rounded-lg shadow-sm overflow-hidden"
         >
           <input
-            className="w-full border-none py-2 px-4 focus:outline-none"
+            className="w-full border-none py-2 px-4 focus:outline-none text-black"
             placeholder="Search user"
             name="user"
             onChange={handleOnChange}
@@ -52,7 +52,7 @@ const SearchUserInput = ({ users }: SearchUserInputProps) => {
         </form>
 
         {suggestions.length !== 0 && (
-          <div className="mt-2 bg-white border rounded-lg shadow-sm overflow-hidden">
+          <div className="mt-2 bg-white border rounded-lg shadow-sm overflow-y-scroll max-h-48">
             <ul className="divide-y divide-gray-200">
               {suggestions.map((user) => (
                 <Link href={`/devs/${user.username}`} key={user.username}>
