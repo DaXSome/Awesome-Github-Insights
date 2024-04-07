@@ -45,23 +45,6 @@ interface GhUserInfo {
   updated_at: string;
 }
 
-interface GhContributions {
-  years: {
-    year: string;
-    total: number;
-    range: {
-      start: string;
-      end: string;
-    };
-  }[];
-  contributions: {
-    date: string;
-    count: number;
-    color: string;
-    intensity: string;
-  }[];
-}
-
 interface RepoOwner {
   login: string;
   id: number;

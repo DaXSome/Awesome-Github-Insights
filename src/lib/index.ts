@@ -132,24 +132,23 @@ export async function GetDevProfile(id: string) {
     Authorization: `Bearer ${process.env.GH_API_KEY}`,
   };
 
-  const [userResponse, mdUserInfo, contributionsResponse] = await Promise.all([
+  const [userResponse, mdUserInfo] = await Promise.all([
     fetch(`https://api.github.com/users/${id}`, { headers }),
     GetUserFromMD(id),
-    fetch(`https://github-contributions.vercel.app/api/v1/${id}`),
   ]);
 
   const ghUserInfo = (await userResponse.json()) as GhUserInfo;
 
-  const contributions = (await contributionsResponse.json()) as GhContributions;
+  const firstYearOnGh = new Date(ghUserInfo.created_at).getFullYear();
 
-  const contributionsPerYear = contributions.years.map(({ year }) =>
-    parseInt(year),
-  );
+  const currentYear = new Date().getFullYear();
 
   return {
     ghUserInfo,
     mdUserInfo,
-    contributionsPerYear,
-    yearsOnGithub: contributions.years.length,
+    yearsOnGithub: new Array<number>(currentYear - firstYearOnGh + 1) // Include first year in count
+      .fill(firstYearOnGh - 1) // Start all indexes with one year before the first year
+      .map((year, index) => year + index + 1) // Account for 0 index
+      .reverse(),
   };
 }

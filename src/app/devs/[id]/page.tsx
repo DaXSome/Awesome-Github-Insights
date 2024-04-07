@@ -37,8 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function DevPage({ params }: Props) {
   const { id } = params;
 
-  const { ghUserInfo, mdUserInfo, yearsOnGithub, contributionsPerYear } =
-    await GetDevProfile(id);
+  const { ghUserInfo, mdUserInfo, yearsOnGithub } = await GetDevProfile(id);
 
   return (
     <div className="container mx-auto py-8">
@@ -140,10 +139,10 @@ export default async function DevPage({ params }: Props) {
 
       <hr className="my-8" />
 
-      <p>Years on Github: {yearsOnGithub}</p>
+      <p>Years on Github: {yearsOnGithub.length}</p>
       <ContributionsCalender
         username={ghUserInfo.login}
-        years={contributionsPerYear}
+        years={yearsOnGithub}
       />
     </div>
   );
