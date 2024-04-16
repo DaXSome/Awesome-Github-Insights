@@ -139,6 +139,20 @@ export default async function DevPage({ params }: Props) {
 
       <hr className="my-8" />
 
+      <section className="my-8">
+        <h1 className="text-2xl font-bold">30 Day contribution trend</h1>
+        <div className="flex justify-center">
+          <img
+            src={`https://github-readme-activity-graph.vercel.app/graph?username=${ghUserInfo.login}`}
+            alt="Streak"
+            width={1000}
+            height={200}
+          />
+        </div>
+      </section>
+
+      <hr className="my-8" />
+
       <p>Years on Github: {yearsOnGithub.length}</p>
       <ContributionsCalender
         username={ghUserInfo.login}
