@@ -141,7 +141,15 @@ export default async function DevPage({ params }: Props) {
 
       <section className="my-8">
         <h1 className="text-2xl font-bold">30 Day contribution trend</h1>
-        <div className="flex justify-center">
+
+        <div className="flex flex-col justify-center">
+          <img
+            src={`https://github-commits-counter.vercel.app/?user=${ghUserInfo.login}`}
+            alt="Streak"
+            width={400}
+            height={200}
+          />
+
           <img
             src={`https://github-readme-activity-graph.vercel.app/graph?username=${ghUserInfo.login}`}
             alt="Streak"
