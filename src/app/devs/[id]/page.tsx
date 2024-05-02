@@ -1,6 +1,7 @@
 import ContributionsCalender from "@/components/devs/ContributionsCalender";
 import { GetDevProfile } from "@/lib";
 import { Metadata } from "next";
+import { Star, GitBranch } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -37,7 +38,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function DevPage({ params }: Props) {
   const { id } = params;
 
-  const { ghUserInfo, mdUserInfo, yearsOnGithub } = await GetDevProfile(id);
+  const { ghUserInfo, mdUserInfo, yearsOnGithub, ossContrib } =
+    await GetDevProfile(id);
 
   return (
     <div className="container mx-auto py-8">
@@ -156,6 +158,41 @@ export default async function DevPage({ params }: Props) {
             width={1000}
             height={200}
           />
+        </div>
+      </section>
+
+      <hr className="my-8" />
+
+      <section className="my-8">
+        <h1 className="text-2xl font-bold">Open Source Contributions</h1>
+        {ossContrib.length == 0 && <p> No contributions </p>}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-center">
+          {ossContrib.map((repo) => (
+            <div
+              key={repo.node.url}
+              className="bg-white p-4 rounded-lg shadow-md flex flex-col items-center"
+            >
+              <a
+                target="_blank"
+                href={repo.node.url}
+                className="text-blue-600 hover:underline font-semibold"
+              >
+                {repo.node.nameWithOwner}
+              </a>
+
+              <div className="flex items-center mt-2">
+                <Star size={18} className="text-yellow-400 mr-1" />
+                <p className="text-gray-600">
+                  {repo.node.stargazerCount} stars
+                </p>
+              </div>
+
+              <div className="flex items-center">
+                <GitBranch size={18} className="text-green-400 mr-1" />
+                <p className="text-gray-600">{repo.node.forkCount} forks</p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 

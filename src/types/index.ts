@@ -238,6 +238,27 @@ interface GhUserRepos {
   default_branch: string;
 }
 
+interface OssContribRes {
+  data: {
+    user: {
+      repositoriesContributedTo: {
+        edges: OssContribEdge[];
+      };
+    };
+  };
+}
+
+interface OssContribEdge {
+  node: OssContribRepo;
+}
+
+interface OssContribRepo {
+  nameWithOwner: string;
+  url: string;
+  stargazerCount: number;
+  forkCount: number;
+}
+
 interface GhForkedRepo extends GhUserRepos {
   parent: RepoParent;
 }
