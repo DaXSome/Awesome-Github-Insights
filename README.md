@@ -1,6 +1,6 @@
-# Ghana Devs
+# Awesome Github Insights 
 
-An index of Ghanaian developers with awesome profile insights based on [Top Github Users](https://github.com/gayanvoice/top-github-users/blob/main/markdown/total_contributions/ghana.md)
+Insights into a Github user account
 
 ## Getting Started
 
