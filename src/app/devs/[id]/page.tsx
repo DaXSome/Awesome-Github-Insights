@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { ghUserInfo } = await GetDevProfile(id);
 
   const titleNDesc = {
-    title: `Ghana Devs | ${ghUserInfo?.name ?? "No name"} | ${ghUserInfo?.login}`,
+    title: `${ghUserInfo?.name ?? "No name"} | ${ghUserInfo?.login}`,
     description: `Catch all the amazing stuff ${ghUserInfo?.login} is building.`,
   };
 
@@ -38,8 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function DevPage({ params }: Props) {
   const { id } = params;
 
-  const { ghUserInfo, mdUserInfo, yearsOnGithub, ossContrib } =
-    await GetDevProfile(id);
+  const { ghUserInfo, yearsOnGithub, ossContrib } = await GetDevProfile(id);
 
   return (
     <div className="container mx-auto py-8">
@@ -64,12 +63,6 @@ export default async function DevPage({ params }: Props) {
             <p className="text-gray-600">
               Followers: {ghUserInfo.followers} || Following:{" "}
               {ghUserInfo.following}
-            </p>
-            <p className="text-gray-600">
-              Public contributions: {mdUserInfo?.public_contributions}
-            </p>
-            <p className="text-gray-600">
-              Private contributions: {mdUserInfo?.private_contributions}
             </p>
             <a
               href={`https://github.com/${ghUserInfo.login}`}
