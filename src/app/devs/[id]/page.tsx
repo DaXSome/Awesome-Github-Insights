@@ -14,7 +14,17 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = params;
 
-  const { ghUserInfo } = await GetDevProfile(id);
+  const data = await GetDevProfile(id);
+
+  if (!data) {
+    return {
+      metadataBase: new URL("https://ghana-devs.vercel.app"),
+      title: "Oops! | 404",
+      description: "No user found",
+    };
+  }
+
+  const { ghUserInfo } = data;
 
   const titleNDesc = {
     title: `${ghUserInfo?.name ?? "No name"} | ${ghUserInfo?.login}`,
@@ -38,7 +48,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function DevPage({ params }: Props) {
   const { id } = params;
 
-  const { ghUserInfo, yearsOnGithub, ossContrib } = await GetDevProfile(id);
+  const data = await GetDevProfile(id);
+
+  if (!data) {
+    return (
+      <div className="flex flex-col justify-center items-center h-screen">
+        No user Found
+      </div>
+    );
+  }
+
+  const { ghUserInfo, yearsOnGithub, ossContrib } = data;
 
   return (
     <div className="container mx-auto py-8">

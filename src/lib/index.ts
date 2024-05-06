@@ -33,6 +33,8 @@ export async function GetDevProfile(id: string) {
     }),
   ]);
 
+  if (userResponse.status === 404) return null;
+
   const ghUserInfo = (await userResponse.json()) as GhUserInfo;
 
   const ossContrib = (await ossContribRes.json()) as OssContribRes;
