@@ -26,7 +26,10 @@ export async function GetDevProfile(id: string) {
 
   const [userResponse, eventsRes, ossContribRes] = await Promise.all([
     fetch(`https://api.github.com/users/${id}`, { headers }),
-    fetch(`https://api.github.com/users/${id}/events/public`, { headers }),
+    fetch(`https://api.github.com/users/${id}/events/public`, {
+      headers,
+      cache: "no-cache",
+    }),
     fetch("https://api.github.com/graphql", {
       method: "POST",
       headers,
