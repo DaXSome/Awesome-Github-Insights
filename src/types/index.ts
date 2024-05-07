@@ -266,3 +266,43 @@ interface GhForkedRepo extends GhUserRepos {
 interface GhContributor extends RepoOwner {
   contributions: number;
 }
+
+interface PushEventPayload {
+  repository_id: number;
+  push_id: number;
+  size: number;
+  distinct_size: number;
+  ref: string;
+  head: string;
+  before: string;
+  commits: {
+    sha: string;
+    author: {
+      email: string;
+      name: string;
+    };
+    message: string;
+    distinct: boolean;
+    url: string;
+  }[];
+}
+
+type GhPublicEvent = {
+  id: string;
+  actor: {
+    id: number;
+    login: string;
+    display_name: string;
+    gravatar_id: string;
+    url: string;
+  };
+  repo: {
+    id: number;
+    name: string;
+    url: string;
+  };
+  created_at: string
+} & {
+  type: "PushEvent";
+  payload: PushEventPayload;
+};

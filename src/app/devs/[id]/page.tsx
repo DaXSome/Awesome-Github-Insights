@@ -2,6 +2,7 @@ import ContributionsCalender from "@/components/devs/ContributionsCalender";
 import { GetDevProfile } from "@/lib";
 import { Metadata } from "next";
 import { Star, GitBranch } from "lucide-react";
+import { format } from "timeago.js";
 
 export const dynamic = "force-dynamic";
 
@@ -58,7 +59,39 @@ export default async function DevPage({ params }: Props) {
     );
   }
 
-  const { ghUserInfo, yearsOnGithub, ossContrib } = data;
+  const { ghUserInfo, yearsOnGithub, ossContrib, publicEvents } = data;
+
+  const renderPublicEvent = (event: GhPublicEvent) => {
+    switch (event.type) {
+      case "PushEvent":
+        return (
+          <div
+            key={event.payload.push_id}
+            className="bg-white p-4 rounded-lg shadow-md mb-4"
+          >
+            <p>
+              Made {event.payload.commits.length} commits to{" "}
+              {event.payload.ref.replaceAll("refs/heads/", "")} at{" "}
+              {event.repo.name}
+            </p>
+
+            <div className="mt-4 mb-4">
+              {event.payload.commits.map((commit) => (
+                <div key={commit.sha}>
+                  <p>
+                    {commit.message}
+
+                    <span> ({commit.sha.slice(0, 7)})</span>
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <span className="text-gray-400">{format(event.created_at)}</span>
+          </div>
+        );
+    }
+  };
 
   return (
     <div className="container mx-auto py-8">
@@ -207,6 +240,14 @@ export default async function DevPage({ params }: Props) {
             </div>
           ))}
         </div>
+      </section>
+
+      <hr className="my-8" />
+
+      <section className="my-8">
+        <h1 className="text-2xl font-bold">Recent Public Events</h1>
+
+        {publicEvents.map((event) => renderPublicEvent(event))}
       </section>
 
       <hr className="my-8" />

@@ -24,8 +24,9 @@ export async function GetDevProfile(id: string) {
 }
 `;
 
-  const [userResponse, ossContribRes] = await Promise.all([
+  const [userResponse, eventsRes, ossContribRes] = await Promise.all([
     fetch(`https://api.github.com/users/${id}`, { headers }),
+    fetch(`https://api.github.com/users/${id}/events/public`, { headers }),
     fetch("https://api.github.com/graphql", {
       method: "POST",
       headers,
@@ -33,11 +34,11 @@ export async function GetDevProfile(id: string) {
     }),
   ]);
 
-  if (userResponse.status === 404) return null;
-
   const ghUserInfo = (await userResponse.json()) as GhUserInfo;
 
   const ossContrib = (await ossContribRes.json()) as OssContribRes;
+
+  const publicEvents = (await eventsRes.json()) as GhPublicEvent[];
 
   const firstYearOnGh = new Date(ghUserInfo.created_at).getFullYear();
 
@@ -45,6 +46,7 @@ export async function GetDevProfile(id: string) {
 
   return {
     ghUserInfo,
+    publicEvents: publicEvents.slice(0, 5),
     ossContrib: ossContrib.data.user.repositoriesContributedTo.edges.map(
       (repo) => repo,
     ),
