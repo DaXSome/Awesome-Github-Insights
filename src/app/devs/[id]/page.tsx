@@ -3,6 +3,7 @@ import { GetDevProfile } from "@/lib";
 import { Metadata } from "next";
 import { Star, GitBranch } from "lucide-react";
 import { format } from "timeago.js";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -71,8 +72,21 @@ export default async function DevPage({ params }: Props) {
           >
             <p>
               Made {event.payload.commits.length} commits to{" "}
-              {event.payload.ref.replaceAll("refs/heads/", "")} at{" "}
-              {event.repo.name}
+              <Link
+                className="text-blue-400"
+                target="_blank"
+                href={`https://github.com/${event.repo.name}/tree/${event.payload.ref.replaceAll("refs/heads/", "")}`}
+              >
+                {event.payload.ref.replaceAll("refs/heads/", "")}
+              </Link>{" "}
+              at{" "}
+              <Link
+                className="text-blue-400"
+                target="_blank"
+                href={`https://github.com/${event.repo.name}`}
+              >
+                {event.repo.name}
+              </Link>
             </p>
 
             <div className="mt-4 mb-4">
@@ -81,7 +95,14 @@ export default async function DevPage({ params }: Props) {
                   <p>
                     {commit.message}
 
-                    <span> ({commit.sha.slice(0, 7)})</span>
+                    <Link
+                      className="text-blue-400"
+                      target="_blank"
+                      href={`https://github.com/${event.repo.name}/commit/${commit.sha}`}
+                    >
+                      {" "}
+                      ({commit.sha.slice(0, 7)})
+                    </Link>
                   </p>
                 </div>
               ))}
@@ -93,8 +114,17 @@ export default async function DevPage({ params }: Props) {
 
       case "WatchEvent":
         return (
-          <div className="bg-white p-4 rounded-lg shadow-md mb-4">
-            <p>Starred {event.repo.name}</p>
+          <div key={event.repo.name} className="bg-white p-4 rounded-lg shadow-md mb-4">
+            <p>
+              Starred{" "}
+              <Link
+                className="text-blue-400"
+                target="_blank"
+                href={`https://github.com/${event.repo.name}`}
+              >
+                {event.repo.name}
+              </Link>
+            </p>
 
             <div className="mt-4 mb-4"></div>
 
