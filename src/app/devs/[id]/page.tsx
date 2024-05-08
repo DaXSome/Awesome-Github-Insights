@@ -90,6 +90,17 @@ export default async function DevPage({ params }: Props) {
             <span className="text-gray-400">{format(event.created_at)}</span>
           </div>
         );
+
+      case "WatchEvent":
+        return (
+          <div className="bg-white p-4 rounded-lg shadow-md mb-4">
+            <p>Starred {event.repo.name}</p>
+
+            <div className="mt-4 mb-4"></div>
+
+            <span className="text-gray-400">{format(event.created_at)}</span>
+          </div>
+        );
     }
   };
 

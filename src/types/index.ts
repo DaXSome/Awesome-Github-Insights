@@ -287,7 +287,11 @@ interface PushEventPayload {
   }[];
 }
 
-type GhPublicEvent = {
+interface WatchEventPayload {
+  action: string;
+}
+
+interface GhPublicEventBase {
   id: string;
   actor: {
     id: number;
@@ -301,8 +305,15 @@ type GhPublicEvent = {
     name: string;
     url: string;
   };
-  created_at: string
-} & {
-  type: "PushEvent";
-  payload: PushEventPayload;
-};
+  created_at: string;
+}
+
+type GhPublicEvent =
+  | ({
+      type: "PushEvent";
+      payload: PushEventPayload;
+    } & GhPublicEventBase)
+  | ({
+      type: "WatchEvent";
+      payload: WatchEventPayload;
+    } & GhPublicEventBase);
