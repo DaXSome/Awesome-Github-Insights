@@ -114,7 +114,10 @@ export default async function DevPage({ params }: Props) {
 
       case "WatchEvent":
         return (
-          <div key={event.repo.name} className="bg-white p-4 rounded-lg shadow-md mb-4">
+          <div
+            key={event.repo.name}
+            className="bg-white p-4 rounded-lg shadow-md mb-4"
+          >
             <p>
               Starred{" "}
               <Link
@@ -146,9 +149,21 @@ export default async function DevPage({ params }: Props) {
             height={96}
           />
           <div>
-            <h1 className="text-3xl font-bold">
-              {ghUserInfo.name || ghUserInfo.login}
-            </h1>
+            <div>
+              <h1 className="text-3xl font-bold">
+                {ghUserInfo.name || ghUserInfo.login}
+              </h1>
+
+              <a
+                href={ghUserInfo.blog}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center text-sm font-medium hover:text-blue-800"
+              >
+                {ghUserInfo.blog}
+              </a>
+            </div>
+
             <p className="text-gray-600">{ghUserInfo.bio}</p>
             <p className="text-gray-600">
               {ghUserInfo.company || "No Company"}
@@ -158,11 +173,12 @@ export default async function DevPage({ params }: Props) {
               Followers: {ghUserInfo.followers} || Following:{" "}
               {ghUserInfo.following}
             </p>
+
             <a
               href={`https://github.com/${ghUserInfo.login}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-2 inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-full hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+              className="mt-2 inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-full hover:bg-blue-800"
             >
               View on GitHub &rarr;
             </a>
