@@ -129,11 +129,73 @@ export default async function DevPage({ params }: Props) {
               </Link>
             </p>
 
-            <div className="mt-4 mb-4"></div>
+            <span className="text-gray-400">{format(event.created_at)}</span>
+          </div>
+        );
+
+      case "PullRequestEvent":
+        return (
+          <div
+            key={event.repo.name}
+            className="bg-white p-4 rounded-lg shadow-md mb-4"
+          >
+            <p>
+              {event.payload.action} a pull request{" "}
+              <Link
+                className="text-blue-400"
+                target="_blank"
+                href={event.payload.pull_request.html_url}
+              >
+                (#{event.payload.number}){" "}
+              </Link>
+              at{" "}
+              <Link
+                className="text-blue-400"
+                target="_blank"
+                href={`https://github.com/${event.repo.name}`}
+              >
+                {event.repo.name}
+              </Link>
+            </p>
+
+            <div className="mt-4 mb-4">{event.payload.pull_request.title}</div>
 
             <span className="text-gray-400">{format(event.created_at)}</span>
           </div>
         );
+
+
+                case "CreateEvent":
+        return (
+          <div
+            key={event.repo.name}
+            className="bg-white p-4 rounded-lg shadow-md mb-4"
+          >
+            <p>
+             Created a {event.payload.ref_type} {" "}
+              <Link
+                className="text-blue-400"
+                target="_blank"
+                href={`https://github.com/${event.repo.name}/tree/${event.payload.ref}`}
+              >
+                {event.payload.ref}{" "}
+              </Link>
+              at{" "}
+              <Link
+                className="text-blue-400"
+                target="_blank"
+                href={`https://github.com/${event.repo.name}`}
+              >
+                {event.repo.name}
+              </Link>
+            </p>
+
+            <div className="mt-4 mb-4">{event.payload.description}</div>
+
+            <span className="text-gray-400">{format(event.created_at)}</span>
+          </div>
+        );
+
     }
   };
 
