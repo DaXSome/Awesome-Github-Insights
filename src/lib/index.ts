@@ -1,4 +1,23 @@
 /**
+ * Retrieves public events of the account
+ * @param id - Username of the account
+ */
+export async function GetUserEvents(id: string) {
+  const headers = {
+    Authorization: `Bearer ${process.env.GH_API_KEY}`,
+  };
+
+  const res = await fetch(`https://api.github.com/users/${id}/events/public`, {
+    headers,
+    cache: "no-cache",
+  });
+
+  const publicEvents = (await res.json()) as GhPublicEvent[];
+
+  return publicEvents;
+}
+
+/**
  * Retrieves a custom Github profile of the account
  * @param id - Username of the account
  */
@@ -24,12 +43,9 @@ export async function GetDevProfile(id: string) {
 }
 `;
 
-  const [userResponse, eventsRes, ossContribRes] = await Promise.all([
+  const [userResponse, publicEvents, ossContribRes] = await Promise.all([
     fetch(`https://api.github.com/users/${id}`, { headers }),
-    fetch(`https://api.github.com/users/${id}/events/public`, {
-      headers,
-      cache: "no-cache",
-    }),
+    GetUserEvents(id),
     fetch("https://api.github.com/graphql", {
       method: "POST",
       headers,
@@ -41,15 +57,13 @@ export async function GetDevProfile(id: string) {
 
   const ossContrib = (await ossContribRes.json()) as OssContribRes;
 
-  const publicEvents = (await eventsRes.json()) as GhPublicEvent[];
-
   const firstYearOnGh = new Date(ghUserInfo.created_at).getFullYear();
 
   const currentYear = new Date().getFullYear();
 
   return {
     ghUserInfo,
-    publicEvents: publicEvents.slice(0, 5),
+    publicEvents,
     ossContrib: ossContrib.data.user.repositoriesContributedTo.edges.map(
       (repo) => repo,
     ),

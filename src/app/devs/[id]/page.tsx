@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import { Star, GitBranch } from "lucide-react";
 import { format } from "timeago.js";
 import Link from "next/link";
+import PublicEvents from "@/components/devs/PublicEvents";
 
 export const dynamic = "force-dynamic";
 
@@ -61,143 +62,6 @@ export default async function DevPage({ params }: Props) {
   }
 
   const { ghUserInfo, yearsOnGithub, ossContrib, publicEvents } = data;
-
-  const renderPublicEvent = (event: GhPublicEvent) => {
-    switch (event.type) {
-      case "PushEvent":
-        return (
-          <div
-            key={event.payload.push_id}
-            className="bg-white p-4 rounded-lg shadow-md mb-4"
-          >
-            <p>
-              Made {event.payload.commits.length} commits to{" "}
-              <Link
-                className="text-blue-400"
-                target="_blank"
-                href={`https://github.com/${event.repo.name}/tree/${event.payload.ref.replaceAll("refs/heads/", "")}`}
-              >
-                {event.payload.ref.replaceAll("refs/heads/", "")}
-              </Link>{" "}
-              at{" "}
-              <Link
-                className="text-blue-400"
-                target="_blank"
-                href={`https://github.com/${event.repo.name}`}
-              >
-                {event.repo.name}
-              </Link>
-            </p>
-
-            <div className="mt-4 mb-4">
-              {event.payload.commits.map((commit) => (
-                <div key={commit.sha}>
-                  <p>
-                    {commit.message}
-
-                    <Link
-                      className="text-blue-400"
-                      target="_blank"
-                      href={`https://github.com/${event.repo.name}/commit/${commit.sha}`}
-                    >
-                      {" "}
-                      ({commit.sha.slice(0, 7)})
-                    </Link>
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            <span className="text-gray-400">{format(event.created_at)}</span>
-          </div>
-        );
-
-      case "WatchEvent":
-        return (
-          <div
-            key={event.repo.name}
-            className="bg-white p-4 rounded-lg shadow-md mb-4"
-          >
-            <p>
-              Starred{" "}
-              <Link
-                className="text-blue-400"
-                target="_blank"
-                href={`https://github.com/${event.repo.name}`}
-              >
-                {event.repo.name}
-              </Link>
-            </p>
-
-            <span className="text-gray-400">{format(event.created_at)}</span>
-          </div>
-        );
-
-      case "PullRequestEvent":
-        return (
-          <div
-            key={event.repo.name}
-            className="bg-white p-4 rounded-lg shadow-md mb-4"
-          >
-            <p>
-              {event.payload.action} a pull request{" "}
-              <Link
-                className="text-blue-400"
-                target="_blank"
-                href={event.payload.pull_request.html_url}
-              >
-                (#{event.payload.number}){" "}
-              </Link>
-              at{" "}
-              <Link
-                className="text-blue-400"
-                target="_blank"
-                href={`https://github.com/${event.repo.name}`}
-              >
-                {event.repo.name}
-              </Link>
-            </p>
-
-            <div className="mt-4 mb-4">{event.payload.pull_request.title}</div>
-
-            <span className="text-gray-400">{format(event.created_at)}</span>
-          </div>
-        );
-
-
-                case "CreateEvent":
-        return (
-          <div
-            key={event.repo.name}
-            className="bg-white p-4 rounded-lg shadow-md mb-4"
-          >
-            <p>
-             Created a {event.payload.ref_type} {" "}
-              <Link
-                className="text-blue-400"
-                target="_blank"
-                href={`https://github.com/${event.repo.name}/tree/${event.payload.ref}`}
-              >
-                {event.payload.ref}{" "}
-              </Link>
-              at{" "}
-              <Link
-                className="text-blue-400"
-                target="_blank"
-                href={`https://github.com/${event.repo.name}`}
-              >
-                {event.repo.name}
-              </Link>
-            </p>
-
-            <div className="mt-4 mb-4">{event.payload.description}</div>
-
-            <span className="text-gray-400">{format(event.created_at)}</span>
-          </div>
-        );
-
-    }
-  };
 
   return (
     <div className="container mx-auto py-8">
@@ -364,9 +228,15 @@ export default async function DevPage({ params }: Props) {
       <hr className="my-8" />
 
       <section className="my-8">
-        <h1 className="text-2xl font-bold">Recent Public Events</h1>
-
-        {publicEvents.map((event) => renderPublicEvent(event))}
+        <div className="flex gap-3 items-center">
+          <h1 className="text-2xl font-bold">Recent Public Events </h1>
+          <Link className="text-blue-400" href={`/devs/${id}/events`}>
+            View more
+          </Link>
+        </div>
+        {publicEvents.slice(0, 5).map((event) => (
+          <PublicEvents key={event.id} event={event} />
+        ))}
       </section>
 
       <hr className="my-8" />
