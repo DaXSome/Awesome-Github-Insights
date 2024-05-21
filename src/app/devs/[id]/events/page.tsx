@@ -1,8 +1,5 @@
-import ContributionsCalender from "@/components/devs/ContributionsCalender";
 import { GetDevProfile, GetUserEvents } from "@/lib";
 import { Metadata } from "next";
-import { Star, GitBranch } from "lucide-react";
-import { format } from "timeago.js";
 import Link from "next/link";
 import PublicEvents from "@/components/devs/PublicEvents";
 
