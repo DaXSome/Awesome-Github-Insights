@@ -170,16 +170,20 @@ export default async function DevPage({ params }: Props) {
       <hr className="my-8" />
 
       <section className="my-8">
-        <h1 className="text-2xl font-bold">30 Day contribution trend</h1>
+        <h1 className="text-2xl font-bold">Contribution trend</h1>
 
         <div className="flex flex-col justify-center">
-          <img
-            src={`https://github-commits-counter.vercel.app/?user=${ghUserInfo.login}`}
-            alt="Streak"
-            width={400}
-            height={200}
-          />
-
+          <div className="flex flex-col gap-3">
+            {["this_month", "last_7_days", "today"].map((range) => (
+              <img
+                key={range}
+                src={`https://github-commits-counter.vercel.app/?user=${ghUserInfo.login}&range=${range}`}
+                alt="Streak"
+                width={400}
+                height={200}
+              />
+            ))}
+          </div>
           <img
             src={`https://github-readme-activity-graph.vercel.app/graph?username=${ghUserInfo.login}`}
             alt="Streak"
