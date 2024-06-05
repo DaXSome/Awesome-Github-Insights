@@ -1,4 +1,4 @@
-# Awesome Github Insights 
+# Awesome Github Insights
 
 Insights into a Github user account
 
