@@ -18,6 +18,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://owbird.site/api/cdn/css/credit.css"
+        />
+      </head>
       <body className={inter.className}>
         <NextTopLoader />
         {children}

@@ -9,7 +9,7 @@ const TopBar = async () => {
       </Link>
       <div className="flex flex-row items-center gap-2">
         <a
-          href="https://github.com/Owbird/Ghana-Devs"
+          href="https://github.com/DaXSome/Awesome-Github-Insights"
           target="_blank"
           rel="noreferrer noopener"
           className="text-white hover:text-gray-400 ml-4"
