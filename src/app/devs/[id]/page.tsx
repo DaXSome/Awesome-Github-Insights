@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!data) {
     return {
-      metadataBase: new URL("https://ghana-devs.vercel.app"),
+      metadataBase: new URL("https://github-insights.owbird.site/"),
       title: "Oops! | 404",
       description: "No user found",
     };
@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 
   return {
-    metadataBase: new URL("https://ghana-devs.vercel.app"),
+    metadataBase: new URL("https://github-insights.owbird.site/"),
     openGraph: {
       images: [ghUserInfo?.avatar_url!],
       ...titleNDesc,
