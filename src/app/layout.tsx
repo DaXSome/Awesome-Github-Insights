@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
 
@@ -21,6 +22,10 @@ export default function RootLayout({
         <NextTopLoader />
         {children}
       </body>
+
+      {process.env.NODE_ENV === "production" && (
+        <GoogleAnalytics gaId="G-X9J8Y8N8SM" />
+      )}
     </html>
   );
 }
