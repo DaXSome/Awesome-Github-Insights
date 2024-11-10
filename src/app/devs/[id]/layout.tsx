@@ -9,7 +9,6 @@ export default function Layout({
     <main>
       <TopBar />
       {children}
-      <script src="https://owbird.site/api/cdn/js/credit.js"></script>
     </main>
   );
 }

@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,15 +19,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link
-          rel="stylesheet"
-          href="https://owbird.site/api/cdn/css/credit.css"
-        />
-      </head>
       <body className={inter.className}>
         <NextTopLoader />
         {children}
+
+        <div className="text-center text-sm text-gray-500 ">
+          Powered ⚡ by{" "}
+          <Link
+            className="hover:text-gray-400"
+            href="https://daxsome.owbird.site"
+          >
+            DaXSome
+          </Link>
+        </div>
       </body>
 
       {process.env.NODE_ENV === "production" && (
